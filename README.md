@@ -1,2 +1,2 @@
 # pmautomation
-modificate some page for maintenance time
+modify some page through api with Flask for maintenance time

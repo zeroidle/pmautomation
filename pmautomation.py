@@ -1,7 +1,9 @@
 #-*- coding: utf-8 -*-
 from flask import Flask,render_template;
 import json;
-import datetime;
+import time;
+import logging
+from logging.handlers import RotatingFileHandler
 
 app = Flask(__name__);
 dow = [u'월',u'화',u'수',u'목',u'금',u'토',u'일']
@@ -29,6 +31,14 @@ def set(sdate=None,edate=None):
     f.write(ren.encode("utf-8"))
     f.close()
     return ren
-
+    
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=9823);
+    handler = RotatingFileHandler('pmautomation.log', maxBytes=10000, backupCount=1)
+    handler.setLevel(logging.DEBUG)
+        
+    log = logging.getLogger('werkzeug')
+    log.setLevel(logging.DEBUG)
+    log.addHandler(handler)
+    log.info('Initializing... %s "Starting Program"' % time.strftime('[%d/%b/%Y %H:%M:%S]', time.localtime()))
+    
+    app.run(debug=False, host='0.0.0.0', port=9823);
